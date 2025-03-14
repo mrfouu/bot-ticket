@@ -41,13 +41,6 @@ erDiagram
         string amenity_id
     }
 
-    %% Section 2: Relations entre les entités
-    USERS ||--o{ PLACES : "owns"
-    USERS ||--o{ REVIEWS : "writes"
-    PLACES ||--o{ REVIEWS : "has"
-    PLACES }o--o{ AMENITIES : "has"
-    PLACES_AMENITIES }o--|| PLACES : "references"
-    PLACES_AMENITIES }o--|| AMENITIES : "references"
 ```	
 ---
 
