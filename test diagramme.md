@@ -48,36 +48,6 @@ erDiagram
     PLACES }o--o{ AMENITIES : "has"
     PLACES_AMENITIES }o--|| PLACES : "references"
     PLACES_AMENITIES }o--|| AMENITIES : "references"
-
-    %% Section 3: Légendes et descriptions
-    note right of USERS
-        **USERS** : Table des utilisateurs.
-        - Un utilisateur peut posséder plusieurs places.
-        - Un utilisateur peut écrire plusieurs reviews.
-    end note
-
-    note right of PLACES
-        **PLACES** : Table des lieux.
-        - Une place appartient à un utilisateur.
-        - Une place peut avoir plusieurs reviews.
-        - Une place peut avoir plusieurs commodités.
-    end note
-
-    note right of REVIEWS
-        **REVIEWS** : Table des avis.
-        - Un avis est écrit par un utilisateur.
-        - Un avis est associé à une place.
-    end note
-
-    note right of AMENITIES
-        **AMENITIES** : Table des commodités.
-        - Une commodité peut être associée à plusieurs places.
-    end note
-
-    note right of PLACES_AMENITIES
-        **PLACES_AMENITIES** : Table de jointure.
-        - Lie une place à une commodité.
-    end note
 ```	
 ---
 
@@ -95,5 +65,3 @@ erDiagram
 #### **b. Légendes et Descriptions**
 
 - Les notes (`note right of`) ajoutent des descriptions détaillées pour chaque entité, ce qui rend le diagramme plus **compréhensible** et **professionnel**.
-    
-- Ces notes sont visibles dans l'éditeur Mermaid.js et peuvent être exportées avec le diagramme.
