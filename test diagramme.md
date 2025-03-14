@@ -1,7 +1,9 @@
 ### **1. Diagramme ER Structuré en Mermaid.js**
 
-```
-mermaid
+Voici le diagramme ER réorganisé pour ressembler à la structure du projet de bot Discord :
+
+
+```mermaid
 erDiagram
     %% Section 1: Entités principales
     USERS {
@@ -41,9 +43,23 @@ erDiagram
         string amenity_id
     }
 
-```	
----
+    %% Section 2: Relations entre les entités
+    USERS ||--o{ PLACES : "owns"
+    USERS ||--o{ REVIEWS : "writes"
+    PLACES ||--o{ REVIEWS : "has"
+    PLACES }o--o{ AMENITIES : "has"
+    PLACES_AMENITIES }o--|| PLACES : "references"
+    PLACES_AMENITIES }o--|| AMENITIES : "references"
 
+    %% Section 3: Légendes et descriptions
+    note right of USERS
+        **USERS** : Table des utilisateurs.
+        - Un utilisateur peut posséder plusieurs places.
+        - Un utilisateur peut écrire plusieurs reviews.
+    end note
+
+ 
+```
 ### **2. Explication des Modifications**
 
 #### **a. Sections Structurées**
@@ -58,3 +74,5 @@ erDiagram
 #### **b. Légendes et Descriptions**
 
 - Les notes (`note right of`) ajoutent des descriptions détaillées pour chaque entité, ce qui rend le diagramme plus **compréhensible** et **professionnel**.
+    
+- Ces notes sont visibles dans l'éditeur Mermaid.js et peuvent être exportées avec le diagramme.
