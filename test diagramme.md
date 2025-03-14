@@ -69,7 +69,7 @@ erDiagram
 - Ces notes sont visibles dans l'éditeur Mermaid.js et peuvent être exportées avec le diagramme.
 
 
-## Description des Entités
+### 3. Description des Entités:
 
 ### USERS
 
