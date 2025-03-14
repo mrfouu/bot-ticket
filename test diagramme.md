@@ -1,7 +1,7 @@
 ### **1. Diagramme ER Structuré en Mermaid.js**
 
-
-```mermaid
+```
+mermaid
 erDiagram
     %% Section 1: Entités principales
     USERS {
@@ -48,8 +48,37 @@ erDiagram
     PLACES }o--o{ AMENITIES : "has"
     PLACES_AMENITIES }o--|| PLACES : "references"
     PLACES_AMENITIES }o--|| AMENITIES : "references"
-```
 
+    %% Section 3: Légendes et descriptions
+    note right of USERS
+        **USERS** : Table des utilisateurs.
+        - Un utilisateur peut posséder plusieurs places.
+        - Un utilisateur peut écrire plusieurs reviews.
+    end note
+
+    note right of PLACES
+        **PLACES** : Table des lieux.
+        - Une place appartient à un utilisateur.
+        - Une place peut avoir plusieurs reviews.
+        - Une place peut avoir plusieurs commodités.
+    end note
+
+    note right of REVIEWS
+        **REVIEWS** : Table des avis.
+        - Un avis est écrit par un utilisateur.
+        - Un avis est associé à une place.
+    end note
+
+    note right of AMENITIES
+        **AMENITIES** : Table des commodités.
+        - Une commodité peut être associée à plusieurs places.
+    end note
+
+    note right of PLACES_AMENITIES
+        **PLACES_AMENITIES** : Table de jointure.
+        - Lie une place à une commodité.
+    end note
+```	
 ---
 
 ### **2. Explication des Modifications**
