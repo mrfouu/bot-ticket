@@ -1,11 +1,7 @@
 ### **1. Diagramme ER Structuré en Mermaid.js**
 
-Voici le diagramme ER réorganisé pour ressembler à la structure du projet de bot Discord :
 
-mermaid
-
-Copy
-
+```mermaid
 erDiagram
     %% Section 1: Entités principales
     USERS {
