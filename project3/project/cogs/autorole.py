@@ -4,10 +4,15 @@ from discord.ext import commands
 class AutoRoleCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.role_message_id = None
+        self.role_message_id = True
         self.emoji_to_role = {
-            "🔥": "homme",
-            "☀": "femme"
+            "👨": "Homme",
+            "👩": "Femme",
+            "🔞": "+18",
+            "🚸": "-18",
+            "🛒": "En attente d'achat",
+            "🤖": "Testeur Bot",
+            "🛠️": "Bot Personnalisé"
         }
 
     @commands.command()
@@ -32,9 +37,6 @@ class AutoRoleCog(commands.Cog):
 
         for emoji in self.emoji_to_role.keys():
             await message.add_reaction(emoji)
-
-        self.role_message_id = message.id
-        await ctx.send("Message des rôles configuré avec succès !")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):

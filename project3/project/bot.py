@@ -11,14 +11,15 @@ with open(config_path, "r") as file:
 
 # Charger les intents nécessaires pour le bot
 intents = discord.Intents.default()
-intents.messages = True  # Autorise le bot à lire les messages envoyés dans les salons
-intents.message_content = True  # Permet de lire le contenu des messages (nécessaire pour les commandes textuelles)
-intents.guilds = True  # Permet d'interagir avec les serveurs
-intents.members = True  # Permet de gérer les membres (utile pour la gestion des salons et des tickets)
-intents.reactions = True  # Permet d'ajouter ou de gérer les réactions
+intents.messages = True
+intents.message_content = True
+intents.guilds = True
+intents.members = True
+intents.reactions = True  # Nécessaire pour détecter les réactions
+intents.guild_messages = True  # Nécessaire pour détecter les messages dans les serveurs
 # Chargement de la configuration
 
-bot = commands.Bot(command_prefix=config["prefix"], intents=discord.Intents.all())
+bot = commands.Bot(command_prefix=config["prefix"], intents=discord.Intents.all(), help_command=None)
 
 
 @bot.event
@@ -26,7 +27,13 @@ async def on_ready():
     print(f"Connecté en tant que {bot.user}")
     activity = discord.Activity(type=discord.ActivityType.listening, name="PNL")
     await bot.change_presence(status=discord.Status.online, activity=activity)
+    try:
+        synced = await bot.tree.sync()
+        print(f"Commandes slash synchronisées : {len(synced)}")
+    except Exception as e:
+        print(f"Erreur lors de la synchronisation des commandes slash : {e}")
 
+        
 
 # Fonction pour charger les cogs
 async def load_extensions():
@@ -60,6 +67,9 @@ async def loaded_cogs(ctx):
 async def ping(ctx):
     await ctx.send("Pong!")
 
+@bot.tree.command(name="test", description="Une commande de test")
+async def test(interaction: discord.Interaction):
+    await interaction.response.send_message("Test réussi !")
 
 # Lancement du bot
 async def main():
