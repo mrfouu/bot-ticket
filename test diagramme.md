@@ -1,8 +1,10 @@
-1. Diagramme ER en Mermaid.js
-Voici le diagramme ER généré à partir des fichiers que tu as fournis :
+1. Diagramme ER Structuré en Mermaid.js
+Voici le diagramme ER réorganisé pour ressembler à la structure du projet de bot Discord :
 
-```mermaid
+mermaid
+Copy
 erDiagram
+    %% Section 1: Entités principales
     USERS {
         string id
         string first_name
@@ -40,73 +42,52 @@ erDiagram
         string amenity_id
     }
 
+    %% Section 2: Relations entre les entités
     USERS ||--o{ PLACES : "owns"
     USERS ||--o{ REVIEWS : "writes"
     PLACES ||--o{ REVIEWS : "has"
     PLACES }o--o{ AMENITIES : "has"
     PLACES_AMENITIES }o--|| PLACES : "references"
     PLACES_AMENITIES }o--|| AMENITIES : "references"
-```
 
-2. Explication du Diagramme
-Entités (Tables)
-USERS
+    %% Section 3: Légendes et descriptions
+    note right of USERS
+        **USERS** : Table des utilisateurs.
+        - Un utilisateur peut posséder plusieurs places.
+        - Un utilisateur peut écrire plusieurs reviews.
+    end note
 
-Attributs : id, first_name, last_name, email, password, is_admin
+    note right of PLACES
+        **PLACES** : Table des lieux.
+        - Une place appartient à un utilisateur.
+        - Une place peut avoir plusieurs reviews.
+        - Une place peut avoir plusieurs commodités.
+    end note
 
-Relations :
+    note right of REVIEWS
+        **REVIEWS** : Table des avis.
+        - Un avis est écrit par un utilisateur.
+        - Un avis est associé à une place.
+    end note
 
-Un USER peut posséder plusieurs PLACES (One-to-Many).
+    note right of AMENITIES
+        **AMENITIES** : Table des commodités.
+        - Une commodité peut être associée à plusieurs places.
+    end note
 
-Un USER peut écrire plusieurs REVIEWS (One-to-Many).
+    note right of PLACES_AMENITIES
+        **PLACES_AMENITIES** : Table de jointure.
+        - Lie une place à une commodité.
+    end note
+2. Explication des Modifications
+a. Sections Structurées
+Section 1 : Entités principales : Les tables (USERS, PLACES, REVIEWS, AMENITIES, PLACES_AMENITIES) sont listées avec leurs attributs.
 
-PLACES
+Section 2 : Relations entre les entités : Les relations entre les tables sont clairement définies.
 
-Attributs : id, title, description, price, latitude, longitude, user_id
+Section 3 : Légendes et descriptions : Chaque entité est accompagnée d'une note explicative pour décrire son rôle et ses relations.
 
-Relations :
+b. Légendes et Descriptions
+Les notes (note right of) ajoutent des descriptions détaillées pour chaque entité, ce qui rend le diagramme plus compréhensible et professionnel.
 
-Une PLACE appartient à un USER (via user_id).
-
-Une PLACE peut avoir plusieurs REVIEWS (One-to-Many).
-
-Une PLACE peut avoir plusieurs AMENITIES (Many-to-Many via PLACES_AMENITIES).
-
-REVIEWS
-
-Attributs : id, text, rating, user_id, place_id
-
-Relations :
-
-Une REVIEW est écrite par un USER (via user_id).
-
-Une REVIEW est associée à une PLACE (via place_id).
-
-AMENITIES
-
-Attributs : id, name
-
-Relations :
-
-Un AMENITY peut être associé à plusieurs PLACES (Many-to-Many via PLACES_AMENITIES).
-
-PLACES_AMENITIES (Table de jointure)
-
-Attributs : place_id, amenity_id
-
-Relations :
-
-PLACES_AMENITIES lie une PLACE à un AMENITY.
-
-3. Relations
-USERS ||--o{ PLACES : Un utilisateur peut posséder plusieurs places (One-to-Many).
-
-USERS ||--o{ REVIEWS : Un utilisateur peut écrire plusieurs reviews (One-to-Many).
-
-PLACES ||--o{ REVIEWS : Une place peut avoir plusieurs reviews (One-to-Many).
-
-PLACES }o--o{ AMENITIES : Une place peut avoir plusieurs commodités, et une commodité peut être associée à plusieurs places (Many-to-Many).
-
-PLACES_AMENITIES }o--|| PLACES : La table de jointure référence une place.
-
-PLACES_AMENITIES }o--|| AMENITIES : La table de jointure référence une commodité.
+Ces notes sont visibles dans l'éditeur Mermaid.js et peuvent être exportées avec le diagramme.
