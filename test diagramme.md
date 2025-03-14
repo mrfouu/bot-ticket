@@ -5,7 +5,6 @@ Voici le diagramme ER réorganisé pour ressembler à la structure du projet de 
 
 ```mermaid
 erDiagram
-    %% Section 1: Entités principales
     USERS {
         string id
         string first_name
@@ -49,12 +48,6 @@ erDiagram
     PLACES }o--o{ AMENITIES : "has"
     PLACES_AMENITIES }o--|| PLACES : "references"
     PLACES_AMENITIES }o--|| AMENITIES : "references"
-  
-    note right of USERS
-        **USERS** : Table des utilisateurs.
-        - Un utilisateur peut posséder plusieurs places.
-        - Un utilisateur peut écrire plusieurs reviews.
-    end note
 
  
 ```
