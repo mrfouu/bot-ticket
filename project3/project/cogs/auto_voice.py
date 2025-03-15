@@ -15,7 +15,7 @@ class ChannelAndVoiceManager(commands.Cog):
         member = ctx.author
         
         # Vérifie si l'utilisateur a le rôle Premium
-        premium_role = discord.utils.get(guild.roles, name="Premium")
+        premium_role = discord.utils.get(guild.roles, name="Premium ⭐️")
         if premium_role not in member.roles:
             await ctx.send("Vous devez posséder le rôle Premium pour créer un salon texte.")
             return
@@ -32,7 +32,7 @@ class ChannelAndVoiceManager(commands.Cog):
         guild = member.guild
 
         # Vérifie si l'utilisateur possède le rôle Premium
-        premium_role = discord.utils.get(guild.roles, name="Premium")
+        premium_role = discord.utils.get(guild.roles, name="Premium ⭐️")
 
         # Cas 1 : L'utilisateur rejoint un salon "Hub Vocal"
         if after.channel and after.channel.id in self.hub_channel_ids:
