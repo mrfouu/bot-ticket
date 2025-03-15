@@ -1,6 +1,14 @@
-### **1. Diagramme ER Structuré en Mermaid.js**
+# 📘 HBNB Projet Part 2 - Documentation
 
+## 📚 Introduction
 
+This document provides an overview of the **database schema** for the HBnB project, highlighting the key entities, their attributes, and the relationships between them. The schema is designed to support the core functionalities of the platform, including user management, place listings, reviews, and amenities.
+
+---
+
+## 📊 Entity-Relationship Diagram (ERD)
+
+The following diagram illustrates the structure of the database schema, including the entities and their relationships:
 
 ```mermaid
 erDiagram
@@ -47,83 +55,170 @@ erDiagram
     PLACES }o--o{ AMENITIES : "has"
     PLACES_AMENITIES }o--|| PLACES : "references"
     PLACES_AMENITIES }o--|| AMENITIES : "references"
-
- 
 ```
-### **2. Explication des Modifications**
+---
 
-#### **a. Sections Structurées**
+## 🧩 Entities
 
-- **Section 1 : Entités principales** : Les tables (`USERS`, `PLACES`, `REVIEWS`, `AMENITIES`, `PLACES_AMENITIES`) sont listées avec leurs attributs.
-    
-- **Section 2 : Relations entre les entités** : Les relations entre les tables sont clairement définies.
-    
-- **Section 3 : Légendes et descriptions** : Chaque entité est accompagnée d'une note explicative pour décrire son rôle et ses relations.
-    
+### 👤 **USERS**
 
-#### **b. Légendes et Descriptions**
+**Role**: Represents a user of the platform.  
+**Key Attributes**:
 
-- Les notes (`note right of`) ajoutent des descriptions détaillées pour chaque entité, ce qui rend le diagramme plus **compréhensible** et **professionnel**.
+- **id** : Unique identifier for the user.
     
-- Ces notes sont visibles dans l'éditeur Mermaid.js et peuvent être exportées avec le diagramme.
-
-
-### 3. Description des Entités:
-
-### USERS
-
-- **id** : Identifiant unique de l'utilisateur.
+- **first_name** : First name of the user.
     
-- **first_name** : Prénom de l'utilisateur.
+- **last_name** : Last name of the user.
     
-- **last_name** : Nom de famille de l'utilisateur.
+- **email** : Email address of the user.
     
-- **email** : Adresse e-mail de l'utilisateur.
+- **password** : Hashed password for authentication.
     
-- **password** : Mot de passe de l'utilisateur.
-    
-- **is_admin** : Indique si l'utilisateur est un administrateur.
+- **is_admin** : Indicates whether the user has admin privileges.
     
 
-### PLACES
+**Relationships**:
 
-- **id** : Identifiant unique du lieu.
+- A user can **own multiple places** (One-to-Many).
     
-- **title** : Titre du lieu.
-    
-- **description** : Description du lieu.
-    
-- **price** : Prix du lieu.
-    
-- **latitude** : Latitude du lieu.
-    
-- **longitude** : Longitude du lieu.
-    
-- **user_id** : Identifiant de l'utilisateur propriétaire du lieu.
+- A user can **write multiple reviews** (One-to-Many).
     
 
-### REVIEWS
+---
 
-- **id** : Identifiant unique de l'avis.
+### 🏠 **PLACES**
+
+**Role**: Represents a lodging or property listed on the platform.  
+**Key Attributes**:
+
+- **id** : Unique identifier for the place.
     
-- **text** : Texte de l'avis.
+- **title** : Title of the place.
     
-- **rating** : Note de l'avis (entre 1 et 5).
+- **description** : Detailed description of the place.
     
-- **user_id** : Identifiant de l'utilisateur qui a écrit l'avis.
+- **price** : Price per night for the place.
     
-- **place_id** : Identifiant du lieu associé à l'avis.
+- **latitude** : Geographic latitude of the place.
+    
+- **longitude** : Geographic longitude of the place.
+    
+- **user_id** : Foreign key referencing the user who owns the place.
     
 
-### AMENITIES
+**Relationships**:
 
-- **id** : Identifiant unique de la commodité.
+- A place **belongs to one user** (Many-to-One).
     
-- **name** : Nom de la commodité.
+- A place can **have multiple reviews** (One-to-Many).
+    
+- A place can **have multiple amenities** (Many-to-Many via `PLACES_AMENITIES`).
     
 
-### PLACES_AMENITIES
+---
 
-- **place_id** : Identifiant du lieu.
+### ⭐ **REVIEWS**
+
+**Role**: Represents a review written by a user for a place.  
+**Key Attributes**:
+
+- **id** : Unique identifier for the review.
     
-- **amenity_id** : Identifiant de la commodité.
+- **text** : Text content of the review.
+    
+- **rating** : Rating given by the user (e.g., 1 to 5).
+    
+- **user_id** : Foreign key referencing the user who wrote the review.
+    
+- **place_id** : Foreign key referencing the place being reviewed.
+    
+
+**Relationships**:
+
+- A review is **written by one user** (Many-to-One).
+    
+- A review is **associated with one place** (Many-to-One).
+    
+
+---
+
+### 🛠️ **AMENITIES**
+
+**Role**: Represents an amenity available in a place.  
+**Key Attributes**:
+
+- **id** : Unique identifier for the amenity.
+    
+- **name** : Name of the amenity (e.g., "Wi-Fi", "Pool").
+    
+
+**Relationships**:
+
+- An amenity can be **associated with multiple places** (Many-to-Many via `PLACES_AMENITIES`).
+    
+
+---
+
+### 🔗 **PLACES_AMENITIES**
+
+**Role**: Represents the many-to-many relationship between places and amenities.  
+**Key Attributes**:
+
+- **place_id** : Foreign key referencing a place.
+    
+- **amenity_id** : Foreign key referencing an amenity.
+    
+
+**Relationships**:
+
+- A row in this table **links one place to one amenity**.
+    
+
+---
+
+## 🔑 Key Relationships
+
+1. **USERS ||--o{ PLACES** : A user can own multiple places.
+    
+2. **USERS ||--o{ REVIEWS** : A user can write multiple reviews.
+    
+3. **PLACES ||--o{ REVIEWS** : A place can have multiple reviews.
+    
+4. **PLACES }o--o{ AMENITIES** : A place can have multiple amenities, and an amenity can be associated with multiple places.
+    
+5. **PLACES_AMENITIES }o--|| PLACES** : The `PLACES_AMENITIES` table references a place.
+    
+6. **PLACES_AMENITIES }o--|| AMENITIES** : The `PLACES_AMENITIES` table references an amenity.
+    
+
+---
+
+## 📝 Design Decisions
+
+### **Structure**
+
+- Each entity is designed with a **unique identifier** (`id`) to ensure data integrity.
+    
+- **Foreign keys** are used to establish relationships between entities (e.g., `user_id` in `PLACES`).
+    
+
+### **Relationships**
+
+- **One-to-Many** relationships (e.g., User → Places) are implemented using foreign keys.
+    
+- **Many-to-Many** relationships (e.g., Places ↔ Amenities) are implemented using a **join table** (`PLACES_AMENITIES`).
+    
+
+### **Extensibility**
+
+- The schema is designed to be **scalable**. New entities or relationships can be added without disrupting existing functionality.
+    
+- **CRUD operations** (Create, Read, Update, Delete) are supported for all entities.
+    
+
+---
+
+## 📜 Conclusion
+
+This document provides a detailed overview of the **database schema** for the HBnB project. The schema is designed to support the core functionalities of the platform, including user management, place listings, reviews, and amenities. By adhering to these design principles, the HBnB project aims to deliver a **robust and scalable platform** for managing users, places, reviews, and amenities.
