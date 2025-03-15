@@ -4,7 +4,7 @@ from discord.ext import commands
 class AutoRoleCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.role_message_id = True
+        self.role_message_id = None
         self.emoji_to_role = {
             "👨": "Homme",
             "👩": "Femme",
@@ -18,6 +18,10 @@ class AutoRoleCog(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setup_roles(self, ctx):
+        if self.role_message_id is not None:
+            await ctx.send("Un panneau de rôle est déjà configuré. Utilisez `/reset_roles` pour en créer un nouveau.")
+            return
+
         embed = discord.Embed(
             title="Choisissez vos Rôles 🎭",
             description=(
@@ -35,15 +39,21 @@ class AutoRoleCog(commands.Cog):
 
         message = await ctx.send(embed=embed)
 
+        self.role_message_id = message.id
+
         for emoji in self.emoji_to_role.keys():
             await message.add_reaction(emoji)
 
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def reset_roles(self, ctx):
+        """Réinitialise le panneau de rôle."""
+        self.role_message_id = None
+        await ctx.send("Le panneau de rôle a été réinitialisé. Vous pouvez utiliser `/setup_roles` pour en créer un nouveau.")
+
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if self.role_message_id is None:
-            return
-
-        if payload.message_id != self.role_message_id:
+        if self.role_message_id is None or payload.message_id != self.role_message_id:
             return
 
         guild = self.bot.get_guild(payload.guild_id)
@@ -51,7 +61,7 @@ class AutoRoleCog(commands.Cog):
             return
 
         member = guild.get_member(payload.user_id)
-        if member is None:
+        if member is None or member.bot:
             return
 
         emoji = str(payload.emoji)
@@ -60,14 +70,14 @@ class AutoRoleCog(commands.Cog):
             role = discord.utils.get(guild.roles, name=role_name)
 
             if role and role not in member.roles:
-                await member.add_roles(role)
+                try:
+                    await member.add_roles(role)
+                except discord.Forbidden:
+                    print(f"Impossible d'ajouter le rôle {role_name} à {member.display_name}.")
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
-        if self.role_message_id is None:
-            return
-
-        if payload.message_id != self.role_message_id:
+        if self.role_message_id is None or payload.message_id != self.role_message_id:
             return
 
         guild = self.bot.get_guild(payload.guild_id)
@@ -75,7 +85,7 @@ class AutoRoleCog(commands.Cog):
             return
 
         member = guild.get_member(payload.user_id)
-        if member is None:
+        if member is None or member.bot:
             return
 
         emoji = str(payload.emoji)
@@ -84,7 +94,10 @@ class AutoRoleCog(commands.Cog):
             role = discord.utils.get(guild.roles, name=role_name)
 
             if role and role in member.roles:
-                await member.remove_roles(role)
+                try:
+                    await member.remove_roles(role)
+                except discord.Forbidden:
+                    print(f"Impossible de retirer le rôle {role_name} de {member.display_name}.")
 
 async def setup(bot):
     await bot.add_cog(AutoRoleCog(bot))
