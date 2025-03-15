@@ -4,7 +4,7 @@ from discord.ext import commands
 class ChannelAndVoiceManager(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hub_channel_ids = [1343621843952861224, 1344763125437698138, 1343612516965552158]  # IDs des hubs vocaux
+        self.hub_channel_ids = [1350446653295038484, 1344763125437698138, 1343612516965552158]  # IDs des hubs vocaux
         self.temp_channels = {}  # Dictionnaire pour suivre les salons temporaires {channel_id: user_id}
         self.user_temp_channel_limit = {}  # Dictionnaire pour limiter les salons temporaires par utilisateur
 

@@ -61,16 +61,6 @@ async def loaded_cogs(ctx):
         await ctx.send("Aucun cog n'est actuellement chargé.")
 
 
-
-# Commande ping pour tester si le bot fonctionne
-@bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
-
-@bot.tree.command(name="test", description="Une commande de test")
-async def test(interaction: discord.Interaction):
-    await interaction.response.send_message("Test réussi !")
-
 # Lancement du bot
 async def main():
     await load_extensions()
