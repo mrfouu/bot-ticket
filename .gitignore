@@ -7,7 +7,7 @@ __pycache__/
 
 
 # Environnements virtuels
-venv/
+env/
 .env
 
 # Fichiers de configuration sensibles

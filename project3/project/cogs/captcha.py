@@ -6,7 +6,7 @@ class CaptchaCog(commands.Cog):
         self.bot = bot
         self.verification_role_name = "Mec Normal"  # Nom du rôle à attribuer après vérification
         self.unverified_role_name = "Non Vérifié"  # Nom du rôle initial
-        self.verification_channel_id = 1346763816507150418  # Remplacez par l'ID du canal de vérification
+        self.verification_channel_id = 1351977652960890890  # Remplacez par l'ID du canal de vérification
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
